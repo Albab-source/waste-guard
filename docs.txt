@@ -1,0 +1,117 @@
+# 📘 Dokumentasi Rencana Pengembangan Aplikasi Web Monitoring Limbah
+
+Aplikasi ini merupakan sistem monitoring data sensor limbah (temperature, pH, volume) dengan arsitektur berbasis MQTT, backend Node.js, frontend HTML + Chart.js, dan integrasi WebSocket untuk update real-time.
+
+## ✅ Core Fitur yang Sudah Berjalan
+
+- Listener MQTT berbasis Python
+- Backend Node.js + Express
+- Frontend HTML + Chart.js
+- WebSocket Server untuk real-time chart
+- Webhook untuk alert dan integrasi WhatsApp API
+- Tabel log alert
+- Penyimpanan data sensor ke database
+- Dashboard Chart Realtime + Filter Device (parsial)
+
+---
+
+## 🧭 Rencana Fitur Lanjutan
+
+### 1. Autentikasi & Role-Based Access Control (RBAC)
+- Login dan logout pengguna
+- Role `admin`, `teknisi`, dan `auditor`
+- Pembatasan hak akses:
+  - Admin: semua fitur
+  - Teknisi: monitoring + tindak lanjut
+  - Auditor: hanya melihat histori & grafik
+
+### 2. Histori & Filter Data Sensor
+- Halaman riwayat data sensor
+- Filter berdasarkan:
+  - Tanggal
+  - Jenis sensor (temperature/pH/volume)
+  - Device ID
+- Fitur export ke CSV
+
+### 3. Monitoring Status Device (Online/Offline)
+- Menambahkan kolom `last_seen` di tabel device
+- Jika device tidak kirim data > 5 menit → status "Offline"
+- Status tampil di dashboard sebagai indikator warna atau teks
+
+### 4. Manajemen Notifikasi Alert
+- Tabel log alert dengan kolom:
+  - Waktu
+  - Sensor
+  - Nilai
+  - Status (`baru`, `dibaca`, `ditindaklanjuti`)
+- Tombol resolve & form catatan tindakan
+- Filter berdasarkan status dan waktu
+
+### 5. Manajemen Device Lengkap
+- Form tambah/edit/hapus device
+- Validasi:
+  - Device ID unik
+  - Format jenis sensor
+  - Lokasi wajib diisi
+
+### 6. Konfigurasi Threshold Dinamis
+- Form frontend untuk menentukan ambang batas normal sensor
+- Simpan threshold ke database
+- Rule Engine Python membaca threshold dari DB, bukan dari file JSON
+
+### 7. Notifikasi Multichannel (Opsional)
+- Penambahan channel Telegram dan/atau Email
+- Pilihan channel per device di backend
+- Kirim notifikasi sesuai channel yang dipilih pengguna
+
+### 8. Backup & Recovery
+- Tombol export semua data sensor & log ke file ZIP
+- Penjadwalan backup mingguan (opsional, via cron job)
+
+### 9. Dashboard Ringkasan
+- Widget ringkasan di homepage:
+  - Total device
+  - Device online
+  - Total alert bulan ini
+  - Rata-rata suhu, pH, volume
+
+---
+
+## 🔧 Integrasi Teknis Terkait
+
+| Komponen         | Teknologi                      |
+|------------------|--------------------------------|
+| Listener Sensor  | Python + paho-mqtt             |
+| WebSocket Server | Node.js + ws                   |
+| Frontend         | HTML + Chart.js + WebSocket    |
+| Backend API      | Node.js + Express              |
+| Database         | MySQL (XAMPP)                  |
+| Notifikasi       | WhatsApp API (local webhook)   |
+| Deployment       | Windows lokal / server Nginx   |
+
+---
+
+## 📝 Catatan Pengembangan
+
+- ✅ File `main.py` berperan sebagai listener MQTT dan trigger webhook.
+- ✅ File `webhook.js` menerima alert dan menyimpan ke database.
+- ✅ `index.html` sudah terhubung ke WebSocket dan Chart.js.
+- 🔄 Fungsi dropdown device sudah bekerja sebagian.
+- 🛠 Validasi & retry WhatsApp masih bisa ditingkatkan.
+- 📌 Logging sensor normal & alert sudah dipisah sesuai tabel.
+
+---
+
+## 📅 Roadmap Selanjutnya
+
+1. Selesaikan sistem login + role akses
+2. Tambahkan halaman riwayat dan filter histori sensor
+3. Buat UI untuk konfig threshold per device
+4. Tambahkan dashboard ringkasan + status device
+5. Tambahkan export dan opsi backup data
+6. Evaluasi untuk penggunaan multi-channel notifikasi
+
+---
+
+Jika kamu butuh bantuan untuk menyusun backend-nya atau memperbaiki frontend real-time datanya, dokumentasi ini bisa jadi acuan lanjutan.
+

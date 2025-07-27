@@ -1,0 +1,850 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="description" content="Responsive Admin &amp; Dashboard Template based on Bootstrap 5">
+	<meta name="author" content="AdminKit">
+	<meta name="keywords" content="adminkit, bootstrap, bootstrap 5, admin, dashboard, template, responsive, css, sass, html, theme, front-end, ui kit, web">
+
+	<link rel="preconnect" href="https://fonts.gstatic.com">
+	<link rel="shortcut icon" href="img/icons/icon-48x48.png" />
+
+	<link rel="canonical" href="https://demo-basic.adminkit.io/" />
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+	<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+	<title>WasteGuardian</title>
+
+	<link href="css/app.css" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+<!-- ================================================================= SIDEBAR ========================================================================= -->
+	<div class="wrapper">
+		<nav id="sidebar" class="sidebar js-sidebar">
+			<div class="sidebar-content js-simplebar">
+				<a class="sidebar-brand" href="index.html">
+          			<span class="align-middle">Waste Guardian</span>
+        		</a>
+				<ul class="sidebar-nav">
+					<li class="sidebar-header">
+						Pages
+					</li>
+
+					<li class="sidebar-item active">
+						<a class="sidebar-link" href="index.html">
+              				<i class="align-middle" data-feather="sliders"></i> <span class="align-middle">Dashboard</span>
+            			</a>
+					</li>
+
+					<li class="sidebar-item">
+						<a class="sidebar-link" href="alert.html">
+							<i class="align-middle me-2" data-feather="alert-octagon"></i> <span class="align-middle">Alert Log</span>
+						</a>
+					</li>
+					<li class="sidebar-item">
+						<a class="sidebar-link" href="device.html">
+							<i class="align-middle me-2" data-feather="radio"></i> </i> <span class="align-middle">Devices</span>
+						</a>
+					</li>
+					</li>
+					<li class="sidebar-item">
+						<a class="sidebar-link" href="historical.html">
+							<i class="align-middle me-2" data-feather="umbrella"></i> </i> <span class="align-middle">History</span>
+						</a>
+					</li>
+					<!-- =====USER===== -->
+					<li class="sidebar-header">
+						User
+					</li>
+
+					<li class="sidebar-item">
+						<a class="sidebar-link" href="pages-profile.html">
+              				<i class="align-middle" data-feather="user"></i> <span class="align-middle">Profile</span>
+            			</a>
+					</li>
+				</ul>
+			</div>
+		</nav>
+<!-- ======================================================================= MAIN ===================================================================== -->
+		<div class="main">
+			<nav class="navbar navbar-expand navbar-light navbar-bg">
+				<a class="sidebar-toggle js-sidebar-toggle">
+					<i class="hamburger align-self-center"></i>
+				</a>
+				<div class="navbar-collapse collapse">
+					<ul class="navbar-nav navbar-align">
+						<li class="nav-item dropdown">
+							<a class="nav-icon dropdown-toggle" href="#" id="alertsDropdown" data-bs-toggle="dropdown">
+								<div class="position-relative">
+									<i class="align-middle" data-feather="bell"></i>
+									<div id="notifIndicator"></div>
+								</div>
+							</a>
+							<div class="dropdown-menu dropdown-menu-lg dropdown-menu-end py-0" aria-labelledby="alertsDropdown">
+								<div class="dropdown-menu-header" id="notifHeader"></div>
+								<div class="list-group" id="notifList"></div>
+								<div class="dropdown-menu-footer">
+									<a href="alert.html" class="text-muted">Show all notifications</a>
+								</div>
+							</div>
+						</li>
+					</ul>
+				</div>
+			</nav>
+			<!-- ======================================================= MAIN CONTENT ============================================================================== -->
+			<main class="content">
+				<div class="container-fluid p-0">
+					<div class="card">
+						<div class="card-header">	
+							<h1 class="h3 mb-3"><strong>Analytics</strong> Dashboard</h1>
+						</div>
+						<div class="card-body">
+							<input id="readDevice" class="form-control mb-3" type="text" placeholder="No Device Selected" readonly>
+							<button id="toggleDeviceSelect" class="btn btn-primary mb-2 w-100">Select Device</button>
+							<select multiple class="form-control" id="deviceSelect" style="display:none;"></select>
+						</select>
+					</div>
+				</div>
+					<!-- ===================================================== LINE CHART ===================================================== -->
+					<div class="row">
+						<div class="col-12 col-md-12 col-xxl-6 d-flex"">
+							<div class="card flex-fill w-100">
+								<div class="card-header">
+									
+									<h5 class="card-title mb-0">Temperature Limbah</h5>
+								</div>
+								<div class="card-body py-3">
+									<div class="chart chart-sm">
+										<canvas id="chartjs-dashboard-temperature"></canvas>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="col-12 col-md-12 col-xxl-6 d-flex"">
+							<div class="card flex-fill w-100">
+								<div class="card-header">
+
+									<h5 class="card-title mb-0">ph Limbah</h5>
+								</div>
+								<div class="card-body py-3">
+									<div class="chart chart-sm">
+										<canvas id="chartjs-dashboard-ph"></canvas>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="col-12 col-md-12 col-xxl-6 d-flex"">
+							<div class="card flex-fill w-100">
+								<div class="card-header">
+
+									<h5 class="card-title mb-0">Chemical Oxygen Demand Limbah (COD)</h5>
+								</div>
+								<div class="card-body py-3">
+									<div class="chart chart-sm">
+										<canvas id="chartjs-dashboard-cod"></canvas>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-12 col-md-12 col-xxl-6 d-flex"">
+							<div class="card flex-fill w-100">
+								<div class="card-header">
+
+									<h5 class="card-title mb-0">Volume Limbah</h5>
+								</div>
+								<div class="card-body py-3">
+									<div class="chart chart-sm">
+										<canvas id="chartjs-dashboard-limbah"></canvas>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="card">
+						<div class="card-header">
+							<h5 class="card-title mb-0">All Sensors Overview</h5>
+						</div>
+						<div class="card-body py-3">
+							<div class="chart chart-sm">
+								<canvas id="chartjs-dashboard-all"></canvas>
+							</div>
+						</div>
+					</div>
+
+					<!-- =============================================== DATATABLES ========================================================= -->
+					<div class="row">
+						<div class="row">
+							<div class="col-12 col-md-6 col-xxl-6 d-flex">
+								<div class="card flex-fill p-3">
+									<div class="card-header">
+										<h5 class="card-title mb-0">Temperature Limbah</h5>
+									</div>
+									<table class="table table-hover my-0" id="tempTable">
+										<thead>
+											<tr>
+												<th>NO</th>
+												<th class="">Time</th>
+												<th class="">Temperature</th>
+												<!-- <th>Status</th> -->
+											</tr>
+										</thead>
+										<tbody></tbody>
+									</table>
+								</div>
+							</div>
+							<div class="col-12 col-md-6 col-xxl-6 d-flex">
+								<div class="card flex-fill p-3">
+									<div class="card-header">
+										<h5 class="card-title mb-0">ph Limbah</h5>
+									</div>
+									<table class="table table-hover my-0" id="phTable">
+										<thead>
+											<tr>
+												<th>NO</th>
+												<th class="">Time</th>
+												<th class="">ph</th>
+												<!-- <th>Status</th> -->
+											</tr>
+										</thead>
+										<tbody></tbody>
+									</table>
+								</div>
+							</div>
+							<div class="col-12 col-md-6 col-xxl-6 d-flex">
+								<div class="card flex-fill p-3">
+									<div class="card-header">
+										<h5 class="card-title mb-0">Volume Limbah</h5>
+									</div>
+									<table class="table table-hover my-0" id="volumeTable">
+										<thead>
+											<tr>
+												<th>NO</th>
+												<th class="">Time</th>
+												<th class="">Volume</th>
+												<!-- <th>Status</th> -->
+											</tr>
+										</thead>
+										<tbody>	
+										</tbody>
+									</table>
+								</div>
+							</div>
+							<div class="col-12 col-md-6 col-xxl-6 d-flex">
+								<div class="card flex-fill p-3">
+									<div class="card-header">
+										<h5 class="card-title mb-0">Chemical Oxygen Demand Limbah (COD)</h5>
+									</div>
+									<table class="table table-hover my-0" id="codTable">
+										<thead>
+											<tr>
+												<th>NO</th>
+												<th class="">Time</th>
+												<th class="">COD</th>
+												<!-- <th>Status</th> -->
+											</tr>
+										</thead>
+										<tbody>	
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</main>
+			
+<!-- ======================================================== FOOTER ============================================================= -->
+			<footer class="footer">
+				<div class="container-fluid">
+					<div class="row text-muted">
+						<div class="col-6 text-start">
+							<p class="mb-0">
+								<a class="text-muted" href="https://adminkit.io/" target="_blank"><strong>AdminKit</strong></a> - <a class="text-muted" href="https://adminkit.io/" target="_blank"><strong>Bootstrap Admin Template</strong></a>								&copy;
+							</p>
+						</div>
+						<div class="col-6 text-end">
+							<ul class="list-inline">
+								<li class="list-inline-item">
+									<a class="text-muted" href="https://adminkit.io/" target="_blank">Support</a>
+								</li>
+								<li class="list-inline-item">
+									<a class="text-muted" href="https://adminkit.io/" target="_blank">Help Center</a>
+								</li>
+								<li class="list-inline-item">
+									<a class="text-muted" href="https://adminkit.io/" target="_blank">Privacy</a>
+								</li>
+								<li class="list-inline-item">
+									<a class="text-muted" href="https://adminkit.io/" target="_blank">Terms</a>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</footer>
+		</div>
+	</div>
+<!-- ======================================================== SCRIPT JS ============================================================= -->
+
+	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+	<script src="js/app.js"></script>
+	<script src="js/script.js"></script>
+
+	<!-- ==================== SCRIPT SELECT TOOGLER ==================== -->
+	<script>
+		document.addEventListener("DOMContentLoaded", function() {
+			// ... kode fetch device, dsb ...
+			const toggleBtn = document.getElementById('toggleDeviceSelect');
+			const deviceSelect = document.getElementById('deviceSelect');
+
+			toggleBtn.addEventListener('click', function() {
+				if (deviceSelect.style.display === "none" || deviceSelect.style.display === "") {
+					deviceSelect.style.display = "block";
+					toggleBtn.textContent = "Hide Selector";
+				} else {
+					deviceSelect.style.display = "none";
+					toggleBtn.textContent = "Select Device";
+				}
+			});
+		});
+	</script>
+
+	<!-- ==================== DEVICE SELECTOR ==================== -->
+	<script>
+		document.addEventListener("DOMContentLoaded", function() {
+		// Ambil data device dari backend
+		fetch('http://localhost:9000/api/devices')
+			.then(response => response.json())
+			.then(devices => {
+			const select = document.getElementById('deviceSelect');
+			// Hapus semua option kecuali yang pertama
+			select.length = 1;
+			devices.forEach(device => {
+				const option = document.createElement('option');
+				option.value = device.deviceId; // atau device._id sesuai struktur database
+				option.text = device.name; // pastikan field name sesuai di database
+				select.appendChild(option);
+			});
+			})
+			.catch(err => {
+			console.error('Gagal mengambil data device:', err);
+			});
+		
+			const select = document.getElementById('deviceSelect');
+			const readDevice = document.getElementById("readDevice");
+			select.addEventListener('change', (e) => {
+				selectedDeviceId = e.target.value === "" ? null : e.target.value;
+				const selectedOption = select.options[select.selectedIndex];
+				readDevice.placeholder = selectedOption.text;
+					console.log("Device dipilih:", selectedDeviceId);
+					loadTempTable(selectedDeviceId); 
+					loadPhTable(selectedDeviceId); 
+					loadVolumeTable(selectedDeviceId); 
+					loadCodTable(selectedDeviceId); 
+			})
+		});
+	</script>
+
+	<!-- ==================== DATATABLES ==================== -->
+	<script>
+		function loadTempTable(deviceId) {
+			const tableBody = document.querySelector("#tempTable tbody");
+
+			// Destroy old DataTable, and re-inisiate the DataTable
+			if ($.fn.DataTable.isDataTable('#tempTable')) {
+						$('#tempTable').DataTable().destroy();
+					}
+			tableBody.innerHTML = ""; // Bersihkan isi tabel sebelum isi ulang
+
+			if (!deviceId) return; // Jangan fetch jika belum ada device
+
+			fetch(`http://localhost:9000/api/data-sensor/real-time?device=${deviceId}&topic=temperature`)
+				.then(res => res.json())
+				.then(result => {
+					result.data.forEach((log, index) => {
+						const formattedTime = timeFormating(log.timestamp);
+						const row = document.createElement("tr");
+						row.innerHTML = `
+							<td>${index + 1}</td>
+							<td>${formattedTime || '-'}</td>
+							<td>${log.temperature || '-'}</td>
+						`;
+						tableBody.appendChild(row);
+					});
+
+					$('#tempTable').DataTable();
+				})
+				.catch(err => {
+					console.error("Gagal fetch data log:", err);
+				});
+		}
+		function loadPhTable(deviceId) {
+			const tableBody = document.querySelector("#phTable tbody");
+
+			// Destroy DataTable lama jika sudah ada, lalu inisialisasi ulang
+			if ($.fn.DataTable.isDataTable('#phTable')) {
+					$('#phTable').DataTable().destroy();
+			}
+			tableBody.innerHTML = ""; // Bersihkan isi tabel sebelum isi ulang
+
+			if (!deviceId) return; // Jangan fetch jika belum ada device
+
+			fetch(`http://localhost:9000/api/data-sensor/real-time?device=${deviceId}&topic=ph`)
+				.then(res => res.json())
+				.then(result => {
+					result.data.forEach((log, index) => {
+						const formattedTime = timeFormating(log.timestamp);
+						const row = document.createElement("tr");
+						row.innerHTML = `
+							<td>${index + 1}</td>
+							<td>${formattedTime || '-'}</td>
+							<td>${log.ph || '-'}</td>
+						`;
+						tableBody.appendChild(row);
+					});
+
+					$('#phTable').DataTable();
+				})
+				.catch(err => {
+					console.error("Gagal fetch data log:", err);
+				});
+		}
+		function loadVolumeTable(deviceId) {
+			const tableBody = document.querySelector("#volumeTable tbody");
+
+			// Destroy DataTable lama jika sudah ada, lalu inisialisasi ulang
+			if ($.fn.DataTable.isDataTable('#volumeTable')) {
+				$('#volumeTable').DataTable().destroy();
+			}
+			tableBody.innerHTML = ""; // Bersihkan isi tabel sebelum isi ulang
+
+			if (!deviceId) return; // Jangan fetch jika belum ada device
+
+			fetch(`http://localhost:9000/api/data-sensor/real-time?device=${deviceId}&topic=volume`)
+				.then(res => res.json())
+				.then(result => {
+					result.data.forEach((log, index) => {
+						const formattedTime = timeFormating(log.timestamp);
+						const row = document.createElement("tr");
+						row.innerHTML = `
+							<td>${index + 1}</td>
+							<td>${formattedTime || '-'}</td>
+							<td>${log.volume || '-'}</td>
+						`;
+						tableBody.appendChild(row);
+					});
+
+					$('#volumeTable').DataTable();
+				})
+				.catch(err => {
+					console.error("Gagal fetch data log:", err);
+				});
+		}
+		function loadCodTable(deviceId) {
+			const tableBody = document.querySelector("#codTable tbody");
+
+			// Destroy DataTable lama jika sudah ada, lalu inisialisasi ulang
+			if ($.fn.DataTable.isDataTable('#codTable')) {
+				$('#codTable').DataTable().destroy();
+			}
+			tableBody.innerHTML = ""; // Bersihkan isi tabel sebelum isi ulang
+
+			if (!deviceId) return; // Jangan fetch jika belum ada device
+
+			fetch(`http://localhost:9000/api/data-sensor/real-time?device=${deviceId}&topic=cod`)
+				.then(res => res.json())
+				.then(result => {
+					result.data.forEach((log, index) => {
+						const formattedTime = timeFormating(log.timestamp);
+						const row = document.createElement("tr");
+						row.innerHTML = `
+							<td>${index + 1}</td>
+							<td>${formattedTime || '-'}</td>
+							<td>${log.cod || '-'}</td>
+						`;
+						tableBody.appendChild(row);
+					});
+
+					$('#codTable').DataTable();
+				})
+				.catch(err => {
+					console.error("Gagal fetch data log:", err);
+				});
+		}
+	</script>
+
+	<!-- ========== REAL TIME SENSORT CHART ========== -->
+	<script>
+		let selectedDeviceId = null;
+		document.addEventListener("DOMContentLoaded", function() {
+			var ctx = document.getElementById("chartjs-dashboard-temperature").getContext("2d");
+			var gradient = ctx.createLinearGradient(0, 0, 0, 225);
+			gradient.addColorStop(0, "rgba(215, 227, 244, 1)");
+			gradient.addColorStop(1, "rgba(215, 227, 244, 0)");
+		// Ambil chart instance dari Chart.js
+			const tempChart = new Chart(document.getElementById("chartjs-dashboard-temperature"), {
+				type: "line",
+				data: {
+					labels: [],
+					datasets: [{
+						label: "Temperature (°C)",
+						fill: true,
+						backgroundColor: gradient,
+						borderColor: window.theme.primary,
+						data: []
+					}]
+				},
+				options: {
+					maintainAspectRatio: false,
+					tooltips: {
+						intersect: false
+					},
+					hover: {
+						intersect: true
+					},
+					plugins: {
+						filler: {
+							propagate: false
+						}
+					},
+					scales: {
+						x: [{ 
+							display: true, 
+							title: { 
+								display: true, 
+								text: "Waktu" 
+							},
+							reverse: true,
+							gridlines: {color: "rgba(0,0,0,0.0)"} 
+						}],
+						y: [{ 
+							display: true, 
+							title: { 
+								display: true, 
+								text: "Suhu (°C)" 
+							},
+							borderDash: [3, 3],
+							gridLines: { color: "rgba(0,0,0,0.0)" },
+							ticks: { stepSize: 1000 }
+						}]
+					}
+				}
+			});
+
+			const phChart = new Chart(document.getElementById("chartjs-dashboard-ph"), {
+				type: "line",
+				data: {
+					labels: [],
+					datasets: [{
+						label: "pH",
+						fill: true,
+						backgroundColor: "rgba(40, 167, 69, 0.1)",
+						borderColor: "green",
+						data: []
+					}]
+				},
+				options: {
+					maintainAspectRatio: false,
+					tooltips: {
+						intersect: false
+					},
+					hover: {
+						intersect: true
+					},
+					plugins: {
+						filler: {
+							propagate: false
+						}
+					},
+					scales: {
+						x: { display: true, title: { display: true, text: "Waktu" } },
+						y: { display: true, title: { display: true, text: "pH" } }
+					}
+				}
+			});
+
+			const codChart = new Chart(document.getElementById("chartjs-dashboard-cod"), {
+				type: "line",
+				data: {
+					labels: [],
+					datasets: [{
+						label: "COD (mg/l)",
+						fill: true,
+						backgroundColor: "rgba(255, 193, 7, 0.1)",
+						borderColor: "orange",
+						data: []
+					}]
+				},
+				options: {
+					maintainAspectRatio: false,
+					tooltips: {
+						intersect: false
+					},
+					hover: {
+						intersect: true
+					},
+					plugins: {
+						filler: {
+							propagate: false
+						}
+					},
+					scales: {
+						x: { display: true, title: { display: true, text: "Waktu" } },
+						y: { display: true, title: { display: true, text: "Liter" } }
+					}
+				}
+			});
+			const volumeChart = new Chart(document.getElementById("chartjs-dashboard-limbah"), {
+				type: "line",
+				data: {
+					labels: [],
+					datasets: [{
+						label: "Volume Air (L)",
+						fill: true,
+						backgroundColor: "rgba(0, 123, 255, 0.1)",
+						borderColor: "blue",
+						data: []
+					}]
+				},
+				options: {
+					maintainAspectRatio: false,
+					tooltips: {
+						intersect: false
+					},
+					hover: {
+						intersect: true
+					},
+					plugins: {
+						filler: {
+							propagate: false
+						}
+					},
+					scales: {
+						x: { display: true, title: { display: true, text: "Waktu" } },
+						y: { display: true, title: { display: true, text: "Liter" } }
+					}
+				}
+			});
+			const allChart = new Chart(document.getElementById("chartjs-dashboard-all"), {
+				type: "line",
+				data: {
+					labels: [],
+					datasets: [
+						{
+							label: "Temperature (°C)",
+							borderColor: window.theme.primary,
+							backgroundColor: "rgba(13, 110, 253, 0.1)",
+							fill: false,
+							data: []
+						},
+						{
+							label: "pH",
+							borderColor: "green",
+							backgroundColor: "rgba(40, 167, 69, 0.1)",
+							fill: false,
+							data: []
+						},
+						{
+							label: "COD (mg/l)",
+							borderColor: "orange",
+							backgroundColor: "rgba(255, 193, 7, 0.1)",
+							fill: false,
+							data: []
+						},
+						{
+							label: "Volume Air (L)",
+							borderColor: "blue",
+							backgroundColor: "rgba(0, 123, 255, 0.1)",
+							fill: false,
+							data: []
+						}
+					]
+				},
+				options: {
+					maintainAspectRatio: false,
+					plugins: {
+						filler: { propagate: false }
+					},
+					scales: {
+						x: { display: true, title: { display: true, text: "Waktu" } },
+						y: { display: true, title: { display: true, text: "Value" } }
+					}
+				}
+			});
+
+			// Tambahkan fungsi updateAllChart
+			function updateAllChart(topic, timeLabel, value) {
+				const topicMap = { temperature: 0, ph: 1, cod: 2, volume: 3 };
+				const idx = topicMap[topic];
+				if (typeof idx === 'undefined') return;
+				// Tambahkan label jika belum ada
+				if (!allChart.data.labels.includes(timeLabel)) {
+					allChart.data.labels.push(timeLabel);
+					allChart.data.datasets.forEach(ds => ds.data.push(null));
+				}
+				// Set value untuk dataset yang sesuai
+				const labelIdx = allChart.data.labels.indexOf(timeLabel);
+				allChart.data.datasets[idx].data[labelIdx] = value;
+				// Batasi ke 12 data terakhir
+				if (allChart.data.labels.length > 12) {
+					allChart.data.labels.shift();
+					allChart.data.datasets.forEach(ds => ds.data.shift());
+				}
+				allChart.update();
+			}
+
+			//<!-- ========== WEBSOCKET ========== -->
+			let lineChart;
+    function loadChart(topic, time, value) {
+        let lineMap = {
+            temperature : {
+                labels: [],
+				datasets: [{
+					label: "Temperature (°C)",
+					fill: true,
+					backgroundColor: gradient,
+					borderColor: window.theme.primary,
+					data: []
+				}],
+                yText: "Suhu (°C)"
+            },
+            ph : {
+                labels: [],
+				datasets: [{
+					label: "pH",
+					fill: true,
+					backgroundColor: "rgba(40, 167, 69, 0.1)",
+					borderColor: "green",
+					data: []
+				}],
+                yText: "pH"
+            },
+            cod : {
+                labels: [],
+				datasets: [{
+				    labels: "COD (mg/l)",
+				    fill: true,
+				    backgroundColor: "rgba(255, 193, 7, 0.1)",
+				    borderColor: "orange",
+				    data: [],
+                }]
+            },
+            volume : {
+                labels: [],
+                datasets: [{
+                    label: "Volume Air (L)",
+                    fill: true,
+                    backgroundColor: "rgba(0, 123, 255, 0.1)",
+                    borderColor: "blue",
+                    data: []
+                }],
+                yText: "lIter"
+            }
+        }
+        let chartData = lineMap[topic];
+        chartData.labels.push(time);
+		chartData.datasets.data.push(value);
+        console.log(chartData);
+        lineChart = new Chart(document.getElementById(`chartjs-dashboard-${topic}`), {
+            type: "line",
+            data: {
+                labels: [chartData.labels],
+                datasets: [chartData.datasets]
+            },
+            options: {
+                maintainAspectRatio: false,
+                tooltips: {
+                    intersect: false
+                },
+                hover: {
+                    intersect: true
+                },
+                plugins: {
+                    filler: {
+                        propagate: false
+                    }
+                },
+                scales: {
+                    x: { display: true, title: { display: true, text: "Waktu" } },
+                    y: { display: true, title: { display: true, text: chartData.yText } }
+                }
+            }
+        });
+    }
+			const socket = new WebSocket('ws://localhost:8080');
+
+			socket.onmessage = function(event) {
+				console.log("DATA DARI WEBSOCKET:", event.data);
+
+				let raw = JSON.parse(event.data);
+				const data = typeof raw === 'string' ? JSON.parse(raw) : raw;
+
+				console.log("PARSED DATA:", data);
+
+				// Hanya lanjutkan jika device yang dipilih sesuai
+				if (!selectedDeviceId || data.sensorId !== selectedDeviceId) {
+					console.warn("Data dari device lain, tidak ditampilkan:", data.sensorId);
+					return;
+				}
+
+				let chart;
+				const topic = data.topic?.toLowerCase().trim(); // Hindari error
+				if (topic === "temperature") {
+					chart = tempChart;
+				} else if (topic === "ph") {
+					chart = phChart;
+				} else if (topic === "cod") {
+					chart = codChart;
+				} else if (topic === "volume") {
+					chart = volumeChart;
+				} else {
+					console.warn("Topik tidak dikenal atau kosong:", topic);
+					return;
+				}
+
+				if (chart) {
+					const time = (data.date.split(' ')[1]).split(':');
+					const timeLabel = time.slice(0, 3).join(':');
+					chart.data.labels.push(timeLabel);
+					chart.data.datasets[0].data.push(data.value);
+					updateAllChart(topic, timeLabel, data.value);
+				// if (chart) {
+				// 	const time = (data.date.split(' ')[1]).split(':');
+				// 	const timeLabel = time.slice(0, 3).join(':');
+				// 	loadChart(topic, timeLabel, data.value);
+				// 	if (loadChart) {
+				// 		console.log('terpanggil')
+				// 	} else {
+				// 	}
+				// 	console.log('tidak terpanggil')
+				// 	updateAllChart(topic, timeLabel, data.value);
+
+					if (chart.data.labels.length > 12) {
+						chart.data.labels.shift();
+						chart.data.datasets.data.shift();
+					}
+
+					chart.update();
+					// if (lineChart.data.labels.length > 12) {
+					// 	lineChart.data.labels.shift();
+					// 	lineChart.data.datasets.data.shift();
+					// }
+
+					// lineChart.update();
+					loadTempTable(selectedDeviceId); 
+					loadPhTable(selectedDeviceId); 
+					loadVolumeTable(selectedDeviceId); 
+					loadCodTable(selectedDeviceId); 
+					console.log(`Chart updated (${data.sensorId}): ${topic} - ${data.value}`);
+				}
+			};
+		});
+	</script>
+</body>
+
+</html>

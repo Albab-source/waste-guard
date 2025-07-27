@@ -1,0 +1,30 @@
+{
+  "name": "wastepcn",
+  "version": "1.0.0",
+  "description": "For detailed instruction please refer to the following link  -",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node src/server.js",
+    "dev": "nodemon src/server.js"
+  },
+  "keywords": [
+    "iot"
+  ],
+  "author": "Muhammad Ulil Albab",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^1.6.8",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "mysql2": "^3.5.2",
+    "node-fetch": "^3.3.2",
+    "package": "^1.0.1",
+    "ws": "^8.18.3"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.10"
+  }
+}

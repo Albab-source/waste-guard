@@ -1,0 +1,44 @@
+{
+    "sensorpcn/ruang1/humidity": {
+      "condition": "value > 30",
+      "action": {
+        "topic": "alert/ruang1",
+        "message": "Suhu tinggi di ruang 1!"
+      }
+    },
+    "sensorpcn/ruang2/humidity": {
+      "condition": "value > 15",
+      "action": {
+        "topic": "alert/ruang2",
+        "message": "Suhu terlalu rendah di ruang 2!"
+      }
+    },
+    "sensor/limbah/temperature": {
+        "conditions": [
+        {"operator": ">", "value": 40}
+        ],
+        "action": {
+            "topic": "alert/limbah/temperature",
+            "message": "⚠️ : Temperature Limbah melebihi batas ambang!"
+        }
+    },
+    "sensor/limbah/ph": {
+        "conditions": [
+            {"operator": "<", "value": 6}
+        ],
+        "action": {
+            "topic": "alert/limbah/ph",
+            "message": "⚠️ : ph Limbah melebihi batas ambang!"
+        }
+    },
+    "sensor/limbah/volume": {
+        "conditions": [
+          {"operator": ">", "value": 1000}
+        ],
+        "action": {
+            "topic": "alert/limbah/volume",
+            "message": "⚠️ : volume Limbah melebihi batas ambang!"
+        }
+    }
+  }
+  

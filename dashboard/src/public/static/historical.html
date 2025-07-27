@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="description" content="Responsive Admin &amp; Dashboard Template based on Bootstrap 5">
+	<meta name="author" content="AdminKit">
+	<meta name="keywords" content="adminkit, bootstrap, bootstrap 5, admin, dashboard, template, responsive, css, sass, html, theme, front-end, ui kit, web">
+
+	<link rel="preconnect" href="https://fonts.gstatic.com">
+	<link rel="shortcut icon" href="img/icons/icon-48x48.png" />
+
+	<link rel="canonical" href="https://demo-basic.adminkit.io/" />
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+	<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+	<title>Monitoring Controller</title>
+
+	<link href="css/app.css" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+
+<body>
+	<div class="wrapper">
+		<nav id="sidebar" class="sidebar js-sidebar">
+			<div class="sidebar-content js-simplebar">
+				<a class="sidebar-brand" href="index.html">
+          			<span class="align-middle">Monitor</span>
+        		</a>
+				<ul class="sidebar-nav">
+					<li class="sidebar-header">
+						Pages
+					</li>
+
+					<li class="sidebar-item">
+						<a class="sidebar-link" href="index.html">
+              				<i class="align-middle" data-feather="sliders"></i> <span class="align-middle">Dashboard</span>
+            			</a>
+					</li>
+
+					<li class="sidebar-item">
+						<a class="sidebar-link" href="alert.html">
+							<i class="align-middle me-2" data-feather="alert-octagon"></i> <span class="align-middle">Alert Log</span>
+						</a>
+					</li>
+					<li class="sidebar-item">
+						<a class="sidebar-link" href="device.html">
+							<i class="align-middle me-2" data-feather="radio"></i> </i> <span class="align-middle">Devices</span>
+						</a>
+					</li>
+					</li>
+					<li class="sidebar-item active">
+						<a class="sidebar-link" href="historical.html">
+							<i class="align-middle me-2" data-feather="umbrella"></i> </i> <span class="align-middle">History</span>
+						</a>
+					</li>
+					<!-- =====USER===== -->
+					<li class="sidebar-header">
+						User
+					</li>
+
+					<li class="sidebar-item">
+						<a class="sidebar-link" href="pages-profile.html">
+              				<i class="align-middle" data-feather="user"></i> <span class="align-middle">Profile</span>
+            			</a>
+					</li>
+				</ul>
+			</div>
+		</nav>
+<!-- ======================================================================= MAIN ===================================================================== -->
+		<div class="main">
+			<nav class="navbar navbar-expand navbar-light navbar-bg">
+				<a class="sidebar-toggle js-sidebar-toggle">
+					<i class="hamburger align-self-center"></i>
+				</a>
+				<div class="navbar-collapse collapse">
+					<ul class="navbar-nav navbar-align">
+						<li class="nav-item dropdown">
+							<a class="nav-icon dropdown-toggle" href="#" id="alertsDropdown" data-bs-toggle="dropdown">
+								<div class="position-relative">
+									<i class="align-middle" data-feather="bell"></i>
+									<div id="notifIndicator"></div>
+								</div>
+							</a>
+							<div class="dropdown-menu dropdown-menu-lg dropdown-menu-end py-0" aria-labelledby="alertsDropdown">
+								<div class="dropdown-menu-header" id="notifHeader"></div>
+								<div class="list-group" id="notifList"></div>
+								<div class="dropdown-menu-footer">
+									<a href="alert.html" class="text-muted">Show all notifications</a>
+								</div>
+							</div>
+						</li>
+					</ul>
+				</div>
+			</nav>
+			<!-- ====================================================== MAIN CONTENT =================================================== -->
+			<main class="content">
+				<div class="container-fluid p-0">
+					<!-- ====================================================== LINE CHART ======================================= -->
+					<div class="card">
+						<div class="card-header">
+							<h1 class="h3 mb-3"><strong>Analytics</strong> Dashboard</h1>
+							<h5 class="card-title mb-0">All Sensors Overview</h5>
+						</div>
+						<div class="card-body py-3">
+							<div class="chart chart-sm">
+								<canvas id="chartjs-dashboard-all"></canvas>
+							</div>
+						</div>
+					</div>
+					<div class="card">
+						<div class="card-header">	
+                            <h5 class="card-title mb-0">Filter Histori Data Sensor</h5>
+                        </div>
+						<!-- =============================================== DATA FILTER OOPTIOM ======================================= -->
+                        <div class="card-body">
+                            <form id="filterForm">
+								<div class="row g-3 align-items-end mb-3">
+									<div class="col-md-3">
+										<label for="filterStartDate" class="form-label">Tanggal Awal</label>
+										<input type="date" class="form-control" id="filterStartDate" name="startDate">
+									</div>
+									<div class="col-md-3">
+										<label for="filterStartTime" class="form-label">Waktu Awal</label>
+										<input type="time" class="form-control" id="filterStartTime" name="startTime">
+									</div>
+									<div class="col-md-2">
+										<label for="filterDevice" class="form-label">Device</label>
+										<select class="form-select" id="filterDevice" name="device">
+											<option value="">Semua Device</option>
+											<!-- Opsi device diisi dinamis oleh JS -->
+										</select>
+									</div>
+								</div>
+								<div class="row g-2 align-items-end">
+									<div class="col-md-3">
+										<label for="filterEndDate" class="form-label">Tanggal Akhir</label>
+										<input type="date" class="form-control" id="filterEndDate" name="endDate">
+									</div>
+									<div class="col-md-3">
+										<label for="filterEndTime" class="form-label">Waktu Akhir</label>
+										<input type="time" class="form-control" id="filterEndTime" name="endTime">
+									</div>
+									<div class="col-md-2">
+										<label for="filterLocation" class="form-label">Area Device</label>
+										<select class="form-select" id="filterLocation" name="location">
+											<option value="">Semua Area</option>
+											<option value="rumbai">Rumbai</option>
+											<option value="duri">Duri</option>
+										</select>
+									</div>
+								</div>
+								<div class=" d-flex mt-3">
+									<button type="button" class="btn btn-primary w-100" id="applyFilterBtn">
+										Terapkan Filter
+									</button>
+								</div>
+                            </form>
+                        </div>
+                    </div>
+					<!-- ====================================================== DATATABLES ======================================= -->
+					<div class="row">
+						<div class="row">
+							<div class="col-12 col-md-12 col-xxl-12 d-flex">
+								<div class="card flex-fill  p-5 pt-2 pb-3">
+									<div class="card-header row g-2 justify-content-between align-items-center">
+										<div class="col-auto">
+											<h4 class="card-title mb-0 "><mark>Temperature Limbah</mark></h4>
+										</div>
+										<div class="col-auto">
+											<button class="btn btn-success btn-sm" onclick="exportTableToCSV( 'temp', 'tempTable', 'temperature-log.csv' )">
+												Export CSV
+											</button>
+										</div>
+									</div>
+									<table class="table table-hover my-0" id="tempTable">
+										<thead>
+											<tr id="#tr">
+												<th>NO</th>
+												<th class="">Device</th>
+												<th class="">Temperature</th>
+												<th class="">Area</th>
+												<th class="">Time</th>
+												<!-- <th class="d-none d-xl-table-cell">Status</th> -->
+											</tr>
+										</thead>
+										<tbody></tbody>
+									</table>
+								</div>
+							</div>
+							<div class="col-12 col-md-12 col-xxl-12 d-flex">
+								<div class="card flex-fill  p-5 pt-2 pb-3">
+									<div class="card-header  row g-2 justify-content-between align-items-center">
+										<div class="col-auto">
+											<h4 class="card-title mb-0"><mark>ph Limbah</mark></h4>
+										</div>
+										<div class="col-auto">
+											<button class="btn btn-success btn-sm" onclick="exportTableToCSV( 'ph', 'phTable', 'ph-log.csv' )">
+												Export CSV
+											</button>
+										</div>
+									</div>
+									<table class="table table-hover my-0" id="phTable">
+										<thead>
+											<tr id="#tr">
+												<th>NO</th>
+												<th class="">Device</th>
+												<th class="">PH</th>
+												<th class="">Area</th>
+												<th class="">Time</th>
+												<!-- <th>Status</th> -->
+											</tr>
+										</thead>
+										<tbody></tbody>
+									</table>
+								</div>
+							</div>
+							<div class="col-12 col-md-12 col-xxl-12 d-flex">
+								<div class="card flex-fill  p-5 pt-2 pb-3">
+									<div class="card-header  row g-2 justify-content-between align-items-center">
+										<div class="col-auto">
+											<h4 class="card-title mb-0"><mark>Volume Limbah</mark></h4>
+										</div>
+										<div class="col-auto">
+											<button class="btn btn-success btn-sm" onclick="exportTableToCSV( 'volume', 'volumeTable', 'volume-log.csv' )">
+												Export CSV
+											</button>
+										</div>
+									</div>
+									<table class="table table-hover my-0" id="volumeTable">
+										<thead>
+											<tr id="#tr">
+												<th>NO</th>
+												<th class="">Device</th>
+												<th class="">Volume</th>
+												<th class="">Area</th>
+												<th class="">Time</th>
+												<!-- <th>Status</th> -->
+											</tr>
+										</thead>
+										<tbody>	
+										</tbody>
+									</table>
+								</div>
+							</div>
+							<div class="col-12 col-md-12 col-xxl-12 d-flex">
+								<div class="card flex-fill  p-5 pt-2 pb-3">
+									<div class="card-header  row g-2 justify-content-between align-items-center">
+										<div class="col-auto">
+											<h4 class="card-title mb-0"><mark>Chemical Oxygen Demand Limbah (COD)</mark></h4>
+										</div>
+										<div class="col-auto">
+											<button class="btn btn-success btn-sm" onclick="exportTableToCSV( 'cod', 'codTable', 'COD-log.csv' )">
+												Export CSV
+											</button>
+										</div>
+									</div>
+									<table class="table table-hover my-0" id="codTable">
+										<thead>
+											<tr id="#tr">
+												<th>NO</th>
+												<th class="">Device</th>
+												<th class="">COD</th>
+												<th class="">Area</th>
+												<th class="">Time</th>
+												<!-- <th>Status</th> -->
+											</tr>
+										</thead>
+										<tbody>	
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</main>
+<!-- ======================================================================= FOOTER ===================================================================== -->
+			<footer class="footer">
+				<div class="container-fluid">
+					<div class="row text-muted">
+						<div class="col-6 text-start">
+							<p class="mb-0">
+								<a class="text-muted" href="https://adminkit.io/" target="_blank"><strong>AdminKit</strong></a> - <a class="text-muted" href="https://adminkit.io/" target="_blank"><strong>Bootstrap Admin Template</strong></a>								&copy;
+							</p>
+						</div>
+						<div class="col-6 text-end">
+							<ul class="list-inline">
+								<li class="list-inline-item">
+									<a class="text-muted" href="https://adminkit.io/" target="_blank">Support</a>
+								</li>
+								<li class="list-inline-item">
+									<a class="text-muted" href="https://adminkit.io/" target="_blank">Help Center</a>
+								</li>
+								<li class="list-inline-item">
+									<a class="text-muted" href="https://adminkit.io/" target="_blank">Privacy</a>
+								</li>
+								<li class="list-inline-item">
+									<a class="text-muted" href="https://adminkit.io/" target="_blank">Terms</a>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</footer>
+		</div>
+	</div>
+
+	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+	<script src="js/app.js"></script>
+	<script src="js/script.js"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Panggil semua table dengan filter kosong saat awal
+            let startDate = "";
+            let endDate = "";
+            let startTime = "";
+            let endTime = "";
+            let deviceId = "";
+            let location = "";
+
+            loadTable('temp', startDate, endDate, startTime, endTime, deviceId, location);
+            loadTable('ph', startDate, endDate, startTime, endTime, deviceId, location);
+            loadTable('volume', startDate, endDate, startTime, endTime, deviceId, location);
+            loadTable('cod', startDate, endDate, startTime, endTime, deviceId, location);
+
+            //  Isi form input device dengan dinamis
+            fetch('http://localhost:9000/api/devices')
+            .then(res => res.json())
+            .then(data => {
+                const select = document.getElementById('filterDevice');
+                data.forEach(device => {
+                const option = document.createElement('option');
+                option.value = device.deviceId;
+                option.textContent = `${device.name} (${device.deviceId})`;
+                select.appendChild(option);
+                });
+            });
+            
+            const filterBtn = document.getElementById('applyFilterBtn');
+            filterBtn.addEventListener('click', function() {
+               let startDate = document.getElementById('filterStartDate').value;
+               let endDate = document.getElementById('filterEndDate').value;
+               let startTime = document.getElementById('filterStartTime').value;
+               let endTime = document.getElementById('filterEndTime').value;
+               let device = document.getElementById('filterDevice').value;
+               let location = document.getElementById('filterLocation').value;
+
+                loadTable('temp', startDate, endDate, startTime, endTime, deviceId, location); 
+				loadTable('ph', startDate, endDate, startTime, endTime, deviceId, location); 
+				loadTable('volume', startDate, endDate, startTime, endTime, deviceId, location); 
+				loadTable('cod', startDate, endDate, startTime, endTime, deviceId, location); 
+            })
+
+        })
+    </script>
+
+	<!-- ========== DATATABLES ========== -->
+	<script>
+		// Objek untuk menyimpan data berdasarkan topik
+		const dataMap = {
+			temp: [],
+			ph: [],
+			volume: [],
+			cod: []
+		};
+
+		/**
+		 * Fungsi umum untuk memuat data ke tabel berdasarkan topik sensor
+		 * @param {string} topic - Nama topik, harus sama dengan nama tabel dan key dalam dataMap
+		 * @param {string} startDate
+		 * @param {string} endDate
+		 * @param {string} startTime
+		 * @param {string} endTime
+		 * @param {string} deviceId
+		 * @param {string} location
+		 */
+		function loadTable(topic, startDate, endDate, startTime, endTime, deviceId, location) {
+			const tableId = `#${topic}Table`;
+			const tableBody = document.querySelector(`${tableId} tbody`);
+
+			// Variable to change 'temp' to 'temperature' due to naming differences in the database
+			// for endpoint query
+			const topicQuery = topic != 'temp' ? topic : 'temperature';
+
+			// Destroy DataTable lama jika ada
+			if ($.fn.DataTable.isDataTable(tableId)) {
+				$(tableId).DataTable().destroy();
+			}
+			tableBody.innerHTML = ""; // Kosongkan isi tabel
+
+			const url = `http://localhost:9000/api/data-sensor/history?startDate=${startDate}&endDate=${endDate}&startTime=${startTime}&endTime=${endTime}&device=${deviceId}&location=${location}&topic=${topicQuery}`;
+
+			fetch(url)
+				.then(res => res.json())
+				.then(result => {
+					// Update isi tabel
+					result.data.forEach((log, index) => {
+						const formattedTime = timeFormating(log.timestamp);
+						const row = document.createElement("tr");
+						row.innerHTML = `
+							<td>${index + 1}</td>
+							<td>${log.name || '-'}</td>
+							<td>${log.value || '='}</td>
+							<td>${log.location || '-'}</td>
+							<td>${formattedTime || '-'}</td>
+						`;
+						tableBody.appendChild(row);
+					});
+
+					// Simpan ke array sesuai topik
+					if (dataMap[topic]) {
+						dataMap[topic] = result.data;
+					} else {
+						console.warn(`Topik ${topic} tidak dikenal.`);
+					}
+
+					// Inisialisasi ulang DataTable
+					$(tableId).DataTable();
+				})
+				.catch(err => {
+					console.error("Gagal fetch data log:", err);
+				});
+		}
+	</script>
+
+    <script>
+		function exportTableToCSV(topic, tableId, filename) {
+			const table = document.getElementById(tableId);
+			const thead = table.querySelectorAll("thead");
+			const arrayValue = dataMap[topic]; // gunakan dari map baru
+
+			let csvContent = "";
+
+			thead.forEach(row => {
+				let rowData = [];
+				row.querySelectorAll("th").forEach(cell => {
+					rowData.push(`"${cell.textContent.replace(/"/g, '""')}"`);
+				});
+				csvContent += rowData.join(",") + "\n";
+			});
+
+			arrayValue.forEach((value, index) => {
+				let rowData = [];
+				const formattedTime = timeFormating(value.timestamp)
+				rowData.push(`"${index + 1}"`);
+				rowData.push(`"${value.name}"`);
+				rowData.push(`"${value.value}"`);
+				rowData.push(`"${value.location}"`);
+				rowData.push(`"${formattedTime}"`);
+				csvContent += rowData.join(",") + "\n";
+			});
+
+			const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+			const url = URL.createObjectURL(blob);
+			const link = document.createElement("a");
+			link.setAttribute("href", url);
+			link.setAttribute("download", filename);
+			document.body.appendChild(link);
+			link.click();
+			document.body.removeChild(link);
+		}
+    </script>
+
+</body>
+
+</html>
